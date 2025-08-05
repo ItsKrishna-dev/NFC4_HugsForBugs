@@ -18,7 +18,11 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2029&q=80');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
 }
 
 .wrapper {
@@ -171,6 +175,18 @@ form .linkTxt {
 
 .wrapper .rotate-bg2 {
     display: none; /* Hides the second background element */
+}
+
+.site-title {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 2px 2px 8px #000;
+    letter-spacing: 2px;
+    font-weight: 700;
+    z-index: 10;
 }
 
 @media (max-width: 440px)
