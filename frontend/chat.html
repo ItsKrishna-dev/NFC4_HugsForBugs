@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi-Chat UI</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- External stylesheet -->
+  <link rel="stylesheet" href="./chat.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+      <div class="brand">Chats</div>
+
+      <ul class="side-fixed">
+        <li id="newChatBtn" class="new-btn">＋ New Chat</li>
+      </ul>
+
+      <!-- Chat 1 already visible -->
+      <ul id="chatList" class="chat-list">
+        <li class="active" data-id="1">Chat 1</li>
+      </ul>
+
+      <div class="profile-section">
+        <img src="https://via.placeholder.com/44" alt="avatar" class="avatar">
+        <div>
+          <div style="font-weight:600">Clay Jensen</div>
+          <div style="font-size:.8rem;color:var(--accent)">Free</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ===== CHAT AREA ===== -->
+    <section class="chat-area">
+      <!-- Top navbar with chat name & exit link -->
+      <div class="top-bar">
+        <span id="chatName" class="chat-name">Chat 1</span>
+        <a id="exitBtn" href="./MainHomePage.html" class="exit-btn">Exit Chat</a>
+      </div>
+
+      <!-- Messages -->
+      <div id="chatWindow" class="chat-window">
+        <div class="message">Start chatting…</div>
+      </div>
+
+      <!-- File preview strip -->
+      <div id="filePreviewArea" class="file-preview"></div>
+
+      <!-- Input row -->
+      <form id="chatInputForm" class="chat-input">
+        <label class="file-upload-label" title="Attach up to 2 files">📎
+          <input type="file" id="fileInput" accept=".pdf,.docx,.txt" multiple>
+        </label>
+        <input type="text" id="chatInput" placeholder="Type a message…" required>
+        <button type="submit" class="send-btn">Send</button>
+      </form>
+    </section>
+  </div>
+
+  <!-- External script -->
+  <script src="./chat.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+/* ===== Root design tokens ===== */
+:root{
+  --accent:#10a37f; --accent-dark:#0e8a6a;
+  --sidebar-bg:#23262d; --sidebar-width:270px;
+  --bg-light:#f4f4f4;  --text:#2e2e2e;
+  --radius:10px;       --border:#e1e1e1;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08);
+  --shadow-lg:0 2px 12px rgba(0,0,0,.15);
+  --tr:.28s ease;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Poppins",Arial,Helvetica,sans-serif;
+  background:var(--bg-light);
+  color:var(--text);
+  height:100vh;
+  overflow:hidden;
+}
+
+.container{display:flex;height:100%}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  flex:0 0 var(--sidebar-width);
+  background:var(--sidebar-bg);
+  color:#fff;
+  padding:24px 22px;
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+  box-shadow:var(--shadow-lg);
+}
+.brand{font-size:1.35rem;font-weight:600}
+ul{list-style:none;margin:0;padding:0}
+li{
+  cursor:pointer;
+  padding:.55rem .6rem;
+  border-radius:6px;
+  transition:background var(--tr);
+}
+li:hover{background:rgba(255,255,255,.08)}
+.new-btn{background:rgba(255,255,255,.10)}
+.chat-list li.active{background:#fff;color:var(--sidebar-bg);font-weight:600}
+
+.profile-section{
+  margin-top:auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding-top:18px;
+  border-top:1px solid #444;
+}
+.avatar{width:44px;height:44px;border-radius:50%}
+
+/* ===== CHAT AREA ===== */
+.chat-area{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  background:var(--bg-light);
+}
+
+/* top navbar */
+.top-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 24px;
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+}
+.chat-name{font-weight:500}
+
+/* anchor styled like button */
+.exit-btn{
+  display:inline-block;
+  padding:7px 18px;
+  font-size:.9rem;
+  font-weight:500;
+  color:#fff;
+  background:#d64545;
+  border-radius:var(--radius);
+  text-decoration:none;
+  transition:background .25s;
+}
+.exit-btn:hover{background:#b93838}
+
+/* message window */
+.chat-window{
+  flex:1;
+  padding:26px;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.chat-window::-webkit-scrollbar{width:8px}
+.chat-window::-webkit-scrollbar-thumb{
+  background:rgba(0,0,0,.15);
+  border-radius:4px;
+}
+
+.message{
+  max-width:75%;
+  padding:11px 16px;
+  border-radius:var(--radius);
+  background:#fff;
+  box-shadow:var(--shadow-sm);
+}
+.message.user{align-self:flex-end;background:#dafae7}
+
+/* file preview bar */
+.file-preview{
+  display:none;
+  background:#fffdf3;
+  border-block:1px solid var(--border);
+  padding:12px 26px;
+}
+.file-block{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:6px 0;
+  border-bottom:1px dashed #ddd;
+}
+.file-block:last-child{border-bottom:0}
+.file-name{font-size:.92rem}
+.remove-file{
+  font-size:.8rem;
+  color:#c03;
+  background:none;
+  border:none;
+  cursor:pointer;
+  transition:color .2s;
+}
+.remove-file:hover{color:#a00}
+
+/* input row */
+.chat-input{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px 22px;
+  background:#fff;
+  border-top:1px solid var(--border);
+}
+.chat-input input[type="text"]{
+  flex:1;
+  padding:13px 15px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  font-size:1rem;
+  outline:none;
+  transition:border var(--tr),box-shadow var(--tr);
+}
+.chat-input input[type="text"]:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px rgba(16,163,127,.12);
+}
+.chat-input input[type="file"]{display:none}
+
+.file-upload-label{
+  font-size:1.35rem;
+  cursor:pointer;
+  padding:8px 10px;
+  border-radius:var(--radius);
+  transition:background var(--tr),color var(--tr);
+}
+.file-upload-label:hover{
+  background:#eaf7f3;
+  color:var(--accent);
+}
+
+.send-btn{
+  padding:11px 24px;
+  font-size:1rem;
+  font-weight:500;
+  color:#fff;
+  background:var(--accent);
+  border:none;
+  border-radius:var(--radius);
+  cursor:pointer;
+  transition:background var(--tr),transform var(--tr);
+}
+.send-btn:hover{background:var(--accent-dark)}
+.send-btn:active{transform:scale(.97)}
+
+/* hide sidebar on very small screens */
+@media(max-width:680px){.sidebar{display:none}}
