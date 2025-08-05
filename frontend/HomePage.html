@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InsightSummarize – Smart Document Review & Q&A</title>
+  <link rel="stylesheet" href="./HomePage.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="full-bg-wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="logo">InsightSummarize: Smart Document Review &amp; Q&amp;A</div>
+      <div class="nav-actions">
+        <button id="profileButton" class="profile-btn">
+          <img src="https://via.placeholder.com/28" alt="avatar" class="profile-btn-avatar" />
+          Profile
+        </button>
+        <form action="./Signup.html" method="GET" class="signup-form">
+          <button type="submit" class="signup">Sign Up</button>
+        </form>
+      </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="containers">
+      <div class="contents">
+        <h1 class="hero-text">InsightSummarize</h1>
+        <p class="subtext">We aim to simplify and help you to understand and simplify the documents</p>
+        <form action="./chat.html" method="GET" class="cta-form">
+          <button type="submit" class="cta-btn">Chat with us!!</button>
+        </form>
+        <form action="./compare.html" method="GET" class="cta-form">
+          <button type="submit" class="cta-btn">Compare Documents</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features">
+      <h2 class="features-title">🚀 Features We Are Offering</h2>
+      <ul class="features-list">
+        <li>✨ Highlighted answer referencing within the document</li>
+        <li>🧵 Retention of question-answer memory through threaded conversations</li>
+        <li>📑 Support for multi-document upload and comparison mode</li>
+        <li>📥 Downloadable report with summary and Q&amp;A (optional)</li>
+      </ul>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>&copy; 2025 InsightSummarize. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+ <!-- PROFILE DRAWER -->
+<aside id="profilePanel" class="profile-panel" aria-hidden="true" role="dialog">
+  <header class="profile-header">
+    <h2>Profile</h2>
+    <div class="header-buttons">
+      <button id="profileExitBtn" class="profile-exit-btn" title="Exit Profile">✕ Exit</button>
+      <button id="profileCloseBtn" class="profile-close-btn" aria-label="Close">&times;</button>
+    </div>
+  </header>
+
+  <div class="profile-content">
+    <div class="profile-avatar">
+      <img src="https://via.placeholder.com/80" alt="avatar" />
+      <h3 id="profileName" class="profile-name">User Name</h3>
+    </div>
+
+    <div class="profile-stats">
+      <div class="stat-item">
+        <strong id="docCount">0</strong>
+        <span>Documents</span>
+      </div>
+      <div class="stat-item">
+        <strong id="chatCount">0</strong>
+        <span>Chats</span>
+      </div>
+    </div>
+
+    <!-- Profile Form Section -->
+    <div class="profile-info-section">
+      <form id="profileForm" class="profile-form">
+        <div class="form-group">
+          <label for="mobileInput">Mobile Number</label>
+          <input type="tel" id="mobileInput" placeholder="Enter mobile number" />
+          <span id="mobileDisplay" class="saved-info" style="display: none;"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="cityInput">City</label>
+          <input type="text" id="cityInput" placeholder="Enter city" />
+          <span id="cityDisplay" class="saved-info" style="display: none;"></span>
+        </div>
+
+        <div class="form-buttons">
+          <button type="submit" id="saveBtn" class="save-profile-btn">Save</button>
+          <button type="button" id="editBtn" class="edit-profile-btn" style="display: none;">Edit</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Uploaded PDFs Section -->
+    <div class="profile-section">
+      <button id="pdfSectionBtn" class="section-toggle-btn">
+        📄 Uploaded PDFs <span class="toggle-icon">▼</span>
+      </button>
+      <div id="pdfSection" class="section-content" style="display: none;">
+        <div class="pdf-list" id="pdfList">
+          <!-- PDFs will be populated here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat History Section -->
+    <div class="profile-section">
+      <button id="chatSectionBtn" class="section-toggle-btn">
+        💬 Chat History <span class="toggle-icon">▼</span>
+      </button>
+      <div id="chatSection" class="section-content" style="display: none;">
+        <div class="chat-history-list" id="chatHistoryList">
+          <!-- Chat history will be populated here -->
+        </div>
+      </div>
+    </div>
+
+    <button id="logoutBtn" class="logout-btn">Log out</button>
+  </div>
+</aside>
+
+
+
+  <script src="./HomePage.js"></script>
+</body>
+</html>

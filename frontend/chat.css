@@ -187,5 +187,102 @@ li:hover{background:rgba(255,255,255,.08)}
 .send-btn:hover{background:var(--accent-dark)}
 .send-btn:active{transform:scale(.97)}
 
+/* ===== MODE TOGGLE ===== */
+.mode-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #f0f0f0;
+  border: 2px solid #ddd;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+  transition: all var(--tr);
+  min-width: 80px;
+  justify-content: center;
+}
+
+.toggle-btn:hover {
+  background: #e8e8e8;
+  border-color: var(--accent);
+}
+
+.toggle-btn[data-mode="qa"] {
+  background: #e3f2fd;
+  border-color: #2196f3;
+  color: #1976d2;
+}
+
+.toggle-btn[data-mode="qa"] .toggle-icon {
+  content: "💬";
+}
+
+.toggle-btn[data-mode="summarize"] {
+  background: #f3e5f5;
+  border-color: #9c27b0;
+  color: #7b1fa2;
+}
+
+.toggle-btn[data-mode="summarize"] .toggle-icon {
+  content: "📝";
+}
+
+.toggle-text {
+  font-weight: 500;
+}
+
+.toggle-icon {
+  font-size: 1rem;
+}
+
 /* hide sidebar on very small screens */
 @media(max-width:680px){.sidebar{display:none}}
+
+
+/* ===== SAVE BUTTON STYLING ===== */
+.save-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border: none;
+  padding: 11px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #764ba2, #667eea);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.save-btn:active {
+  transform: translateY(0);
+}
+
+/* ===== UPDATE CHAT INPUT LAYOUT ===== */
+.chat-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+  background: #fff;
+  border-top: 1px solid var(--border, #e1e1e1);
+}
+
+/* Make sure buttons are properly aligned */
+.mode-toggle, .save-btn, .send-btn {
+  flex-shrink: 0;
+}

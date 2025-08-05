@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InsightSummarize - Smart Document Review & Q&A</title>
+  <link rel="stylesheet" href="./home.css">
+</head>
+<body>
+  <div class="full-bg-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="logo">InsightSummarize: Smart Document Review & Q&A</div>
+      <!-- Sign Up Form -->
+      <form action="./Signup.html" method="GET" class="signup-form">
+        <button type="submit" class="signup">Profile</button>
+      </form>
+    </nav>
+
+    <!-- Profile toggle button (e.g., your avatar or link) -->
+<button id="profileToggleBtn" class="profile-toggle-btn" aria-label="Toggle Profile Panel">
+  Profile
+</button>
+
+<!-- Profile slide-in section -->
+<aside id="profilePanel" class="profile-panel" aria-hidden="true" role="dialog" aria-label="User Profile Panel">
+  <header class="profile-header">
+    <h2>User Profile</h2>
+    <button id="profileCloseBtn" class="profile-close-btn" aria-label="Close Profile Panel">&times;</button>
+  </header>
+  <div class="profile-content">
+    <div class="profile-avatar">
+      <img src="https://via.placeholder.com/80" alt="User Avatar" />
+      <h3 class="profile-name">Clay Jensen</h3>
+      <p class="profile-plan">Free Plan</p>
+    </div>
+    <form id="profileForm" class="profile-form">
+      <label for="mobileInput">Mobile Number</label>
+      <input type="tel" id="mobileInput" name="mobile" placeholder="Enter mobile number" />
+
+      <label for="cityInput">City</label>
+      <input type="text" id="cityInput" name="city" placeholder="Enter city" />
+
+      <div class="profile-stats">
+        <div class="stat-item">
+          <strong id="chatCount">5</strong>
+          <span>Chats</span>
+        </div>
+        <div class="stat-item">
+          <strong id="docsCount">12</strong>
+          <span>Uploaded Documents</span>
+        </div>
+      </div>
+
+      <button type="submit" class="save-profile-btn">Save</button>
+    </form>
+  </div>
+</aside>
+
+
+    <!-- Hero Section -->
+    <div class="containers">
+      <div class="contents">
+        <h1 class="hero-text">InsightSummarize</h1>
+        <p class="subtext">We aim to simplify and help you to understand and simplify the documents</p>
+        <!-- Get Started Form -->
+        <form action="./chat.html" method="GET" class="cta-form">
+          <button type="submit" class="cta-btn">Chat with us!!</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features">
+      <h2 class="features-title">🚀 Features We Are Offering</h2>
+      <ul class="features-list">
+        <li>✨ Highlighted answer referencing within the document</li>
+        <li>🧵 Retention of question-answer memory through threaded conversations</li>
+        <li>📑 Support for multi-document upload and comparison mode</li>
+        <li>📥 Downloadable report with summary and Q&A (optional)</li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>&copy; 2025 InsightSummarize. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ───────── PROFILE DRAWER (hidden by default) ───────── -->
+<aside id="profilePanel" class="profile-panel" aria-hidden="true" role="dialog" aria-label="User profile">
+  <header class="profile-header">
+    <h2>Profile</h2>
+    <button id="profileCloseBtn" class="profile-close-btn" aria-label="Close">&times;</button>
+  </header>
+
+  <div class="profile-content">
+    <!-- avatar + name -->
+    <div class="profile-avatar">
+      <img src="https://via.placeholder.com/80" alt="User avatar">
+      <h3 id="profileName" class="profile-name">User Name</h3>
+    </div>
+
+    <!-- stats -->
+    <div class="profile-stats">
+      <div class="stat-item">
+        <strong id="docCount">0</strong>
+        <span>Documents</span>
+      </div>
+      <div class="stat-item">
+        <strong id="chatCount">0</strong>
+        <span>Chats</span>
+      </div>
+    </div>
+
+    <!-- editable fields -->
+    <form id="profileForm" class="profile-form">
+      <label for="mobileInput">Mobile Number</label>
+      <input type="tel" id="mobileInput" placeholder="Add mobile number">
+
+      <label for="cityInput">City</label>
+      <input type="text" id="cityInput" placeholder="Add city">
+
+      <button type="submit" class="save-profile-btn">Save</button>
+    </form>
+
+    <!-- logout -->
+    <button id="logoutBtn" class="logout-btn">Log out</button>
+  </div>
+</aside>
+
+
+  <script src="./Home.js"></script>
+</body>
+</html>

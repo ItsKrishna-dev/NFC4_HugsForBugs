@@ -20,23 +20,23 @@
         <div class="form-box register">
             <h2 class="title">Sign Up</h2>
 
-            <form action="./MainHomePage.html" method="GET">
+            <form id="signupForm">
 
                 <div class="input-box">
-                    <input type="text" required>
-                    <label for="">Username</label>
+                    <input type="text" id="username" required>
+                    <label for="username">Username</label>
                     <i class='bx bxs-user'></i>
                 </div>
 
                 <div class="input-box">
-                    <input type="email" required>
-                    <label for="">Email</label>
+                    <input type="email" id="email" required>
+                    <label for="email">Email</label>
                     <i class='bx bxs-envelope'></i>
                 </div>
 
                 <div class="input-box">
-                    <input type="password" required>
-                    <label for="">Password</label>
+                    <input type="password" id="password" required>
+                    <label for="password">Password</label>
                     <i class='bx bxs-lock-alt'></i>
                 </div>
 
@@ -53,6 +53,42 @@
             <p>Sign up quickly to get summary of your documents!!!</p>
         </div>
     </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch('http://localhost:8000/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        email: email,
+                        password: password
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    alert('Signup successful! Please login.');
+                    window.location.href = './Loginpage.html';
+                } else {
+                    alert('Signup failed: ' + data.detail);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Signup failed. Please try again.');
+            }
+        });
+    </script>
 </body>
 
 </html>

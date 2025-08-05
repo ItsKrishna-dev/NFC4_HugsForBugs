@@ -13,15 +13,15 @@
     <div class="wrapper">
         <div class="form-box login">
             <h2>Login</h2>
-            <form action="./MainHomePage.html" method="GET">
+            <form id="loginForm">
                 <div class="input-box">
-                    <input type="text" required="required">
-                    <label>Username</label>
+                    <input type="email" id="email" required="required">
+                    <label for="email">Email</label>
                     <i class="fas fa-user"></i>
                 </div>
                 <div class="input-box">
-                    <input type="password" required="required">
-                    <label>Password</label>
+                    <input type="password" id="password" required="required">
+                    <label for="password">Password</label>
                     <i class="fas fa-lock"></i>
                 </div>
                 <button type="submit">Login</button>

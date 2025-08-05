@@ -55,3 +55,48 @@ function saveInput(fieldId) {
     alert("Please fill in the field");
   }
 }
+
+// DOM references
+const profileToggleBtn = document.getElementById('profileToggleBtn');
+const profilePanel = document.getElementById('profilePanel');
+const profileCloseBtn = document.getElementById('profileCloseBtn');
+const profileForm = document.getElementById('profileForm');
+
+if (profileToggleBtn && profilePanel && profileCloseBtn && profileForm) {
+  
+  // Open profile panel on toggle button click
+  profileToggleBtn.addEventListener('click', () => {
+    profilePanel.classList.add('open');
+    profilePanel.setAttribute('aria-hidden', 'false');
+  });
+
+  // Close profile panel on close button click
+  profileCloseBtn.addEventListener('click', () => {
+    profilePanel.classList.remove('open');
+    profilePanel.setAttribute('aria-hidden', 'true');
+  });
+
+  // Close profile panel if user clicks outside content area
+  profilePanel.addEventListener('click', (e) => {
+    if (e.target === profilePanel) {
+      profilePanel.classList.remove('open');
+      profilePanel.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  // Handle form submit
+  profileForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const mobile = document.getElementById('mobileInput').value.trim();
+    const city = document.getElementById('cityInput').value.trim();
+
+    // TODO: Add validation or backend saving logic here
+
+    alert(`Saved!\nMobile: ${mobile}\nCity: ${city}`);
+    profilePanel.classList.remove('open');
+    profilePanel.setAttribute('aria-hidden', 'true');
+  });
+}
+
+

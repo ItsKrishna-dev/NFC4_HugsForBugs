@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document Compare & Chat</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- External stylesheet -->
+  <link rel="stylesheet" href="compare.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- ===== FULL WIDTH CHAT AREA ===== -->
+    <section class="chat-area">
+      <!-- Top navbar -->
+     <div class="top-bar">
+  <div class="nav-brand">
+    <div class="brand-icon">🔍</div>
+    <div class="brand-content">
+      <h1 class="brand-title">Document Analysis & Chat</h1>
+      <span class="brand-subtitle">AI-Powered Document Intelligence</span>
+    </div>
+  </div>
+  <div class="top-actions">
+    <form action="./HomePage.html" method="GET" class="logout-form">
+      <button type="submit" class="logout-btn">
+        <span class="logout-icon">👋</span>
+        Logout
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<!-- File Upload & Compare Section -->
+<div class="file-upload-section">
+  <div class="upload-container">
+    <div class="file-upload-area">
+      <label for="file1Input" class="file-upload-box" id="file1Box">
+        <div class="upload-icon">📄</div>
+        <div class="upload-text">Upload Document 1</div>
+        <div class="file-info" id="file1Info" style="display: none;"></div>
+        <input type="file" id="file1Input" accept=".pdf,.docx,.txt" style="display: none;">
+      </label>
+    </div>
+
+    <div class="compare-section">
+      <button id="compareBtn" class="compare-btn" disabled>
+        <span class="compare-icon">⚖️</span>
+        Compare Documents
+      </button>
+      
+      <!-- New button added below -->
+      <button id="analyzeBtn" class="analyze-btn" disabled>
+        <span class="analyze-icon">🔍</span>
+        SAVE PDFS
+      </button>
+    </div>
+
+    <div class="file-upload-area">
+      <label for="file2Input" class="file-upload-box" id="file2Box">
+        <div class="upload-icon">📄</div>
+        <div class="upload-text">Upload Document 2</div>
+        <div class="file-info" id="file2Info" style="display: none;"></div>
+        <input type="file" id="file2Input" accept=".pdf,.docx,.txt" style="display: none;">
+      </label>
+    </div>
+  </div>
+</div>
+
+
+      <!-- Messages -->
+      <div id="chatWindow" class="chat-window">
+        <div class="message greeting">Upload documents and start asking questions or comparing them...</div>
+      </div>
+
+      <!-- Chat Input -->
+      <!-- <form id="chatInputForm" class="chat-input">
+        <input type="text" id="chatInput" placeholder="Ask questions about your documents..." required>
+        <div class="mode-toggle">
+          <button type="button" id="modeToggle" class="toggle-btn" data-mode="qa">
+            <span class="toggle-text">Q&A</span>
+            <span class="toggle-icon">💬</span>
+          </button>
+        </div>
+        <button type="submit" class="send-btn">Send</button>
+      </form>
+    </section>
+  </div> -->
+
+  <!-- External script -->
+  <script src="compare.js"></script>
+</body>
+</html>
