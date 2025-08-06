@@ -6,6 +6,8 @@ let currentId   = 1;
 let queuedFiles = [];                           // up to 2 files
 const allowedExt = ["pdf", "docx", "txt"];
 let userData = null;
+let currentDocumentId = null;  // Track the current document for RAG
+let ragInitialized = false;    // Track if RAG is initialized
 
 // Load user data and chat history on page load
 document.addEventListener('DOMContentLoaded', async function() {
@@ -179,9 +181,12 @@ modeToggle.addEventListener("click", () => {
   
   // Update placeholder text based on mode
   if (currentMode === "qa") {
-    chatInput.placeholder = "Ask a question...";
+    chatInput.placeholder = "Ask a question about your documents...";
+    // Reset RAG state when switching to Q&A mode
+    ragInitialized = false;
+    currentDocumentId = null;
   } else {
-    chatInput.placeholder = "Ask to summarize...";
+    chatInput.placeholder = "Type text to summarize or upload documents...";
   }
 });
 
@@ -200,45 +205,228 @@ chatForm.addEventListener("submit", async (e) => {
   const txt = chatInput.value.trim();
   if (!txt && !queuedFiles.length) return;
 
-  if (txt) {
-    // Add mode indicator to the message
-    const modeIndicator = currentMode === "qa" ? "💬" : "📝";
-    chatWindow.insertAdjacentHTML(
-      "beforeend",
-      `<div class="message user">${modeIndicator} ${txt}</div>`
-    );
-    
-    // Save chat message to backend
-    if (userData) {
-      try {
-        const formData = new FormData();
-        formData.append('document_id', 'general'); // You can modify this based on your needs
-        formData.append('question', txt);
-        formData.append('answer', 'AI response will be added here'); // You can integrate with your AI service
-        formData.append('user_id', userData.user_id);
-        formData.append('mode', currentMode); // Add mode to the request
+  // Show loading indicator
+  const loadingId = Date.now();
+  chatWindow.insertAdjacentHTML(
+    "beforeend",
+    `<div class="message system" id="loading-${loadingId}">🤖 Processing...</div>`
+  );
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  try {
+    if (queuedFiles.length > 0) {
+      // Process uploaded files
+      for (const file of queuedFiles) {
+        // Add file message
+        chatWindow.insertAdjacentHTML(
+          "beforeend",
+          `<div class="message user">📎 ${file.name}</div>`
+        );
         
-        await fetch('http://localhost:8000/chat/', {
+        // Process document with FastAPI
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('user_id', userData ? userData.user_id : 'anonymous');
+        
+        const response = await fetch('http://localhost:8000/process-document', {
           method: 'POST',
           body: formData
         });
-      } catch (error) {
-        console.error('Error saving chat message:', error);
+        
+        if (response.ok) {
+          const result = await response.json();
+          
+          // Store document ID for RAG
+          currentDocumentId = result.document_id;
+          
+          // Display summary
+          const summary = result.summary;
+          let summaryHtml = `<div class="message system">📄 <strong>${file.name}</strong> Summary:</div>`;
+          
+          // Overall summary
+          if (summary.overall_summary) {
+            summaryHtml += `<div class="message system"><strong>📝 Document Overview:</strong><br>${summary.overall_summary}</div>`;
+          }
+          
+          // Section summaries
+          if (summary.sections && summary.sections.length > 0) {
+            summaryHtml += `<div class="message system"><strong>📑 Section Analysis:</strong></div>`;
+            summary.sections.forEach(section => {
+              summaryHtml += `<div class="message system"><strong>📖 ${section.title}:</strong><br>${section.summary}</div>`;
+            });
+          }
+          
+          // Document stats
+          summaryHtml += `<div class="message system"><strong>📊 Stats:</strong> ${result.total_chunks} chunks, ${result.total_characters} characters</div>`;
+          
+          // Initialize RAG engine if in Q&A mode
+          if (currentMode === "qa" && currentDocumentId) {
+            try {
+              const ragFormData = new FormData();
+              ragFormData.append('document_id', currentDocumentId);
+              ragFormData.append('user_id', userData ? userData.user_id : 'anonymous');
+              
+              const ragResponse = await fetch('http://localhost:8000/rag/initialize', {
+                method: 'POST',
+                body: ragFormData
+              });
+              
+              if (ragResponse.ok) {
+                const ragResult = await ragResponse.json();
+                summaryHtml += `<div class="message system">🤖 <strong>RAG Engine Initialized:</strong> Ready for Q&A with ${ragResult.total_chunks} chunks</div>`;
+                ragInitialized = true;
+              } else {
+                summaryHtml += `<div class="message system error">❌ Failed to initialize RAG engine</div>`;
+              }
+            } catch (error) {
+              console.error('Error initializing RAG:', error);
+              summaryHtml += `<div class="message system error">❌ Error initializing RAG engine</div>`;
+            }
+          }
+          
+          chatWindow.insertAdjacentHTML("beforeend", summaryHtml);
+        } else {
+          const errorData = await response.json();
+          chatWindow.insertAdjacentHTML(
+            "beforeend",
+            `<div class="message system error">❌ Error processing ${file.name}: ${errorData.detail}</div>`
+          );
+        }
+      }
+    } else if (txt) {
+      // Add user message
+      const modeIndicator = currentMode === "qa" ? "💬" : "📝";
+      chatWindow.insertAdjacentHTML(
+        "beforeend",
+        `<div class="message user">${modeIndicator} ${txt}</div>`
+      );
+      
+      // If in summarize mode and no files, treat as text summarization
+      if (currentMode === "summarize") {
+        const formData = new FormData();
+        formData.append('text', txt);
+        formData.append('max_len', '150');
+        formData.append('min_len', '40');
+        
+        const response = await fetch('http://localhost:8000/summarize-text', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          const summary = result.summary;
+          
+          let summaryHtml = `<div class="message system">📝 <strong>Text Summary:</strong></div>`;
+          
+          if (summary.overall_summary) {
+            summaryHtml += `<div class="message system">${summary.overall_summary}</div>`;
+          }
+          
+          if (summary.sections && summary.sections.length > 0) {
+            summaryHtml += `<div class="message system"><strong>📑 Sections:</strong></div>`;
+            summary.sections.forEach(section => {
+              summaryHtml += `<div class="message system"><strong>📖 ${section.title}:</strong><br>${section.summary}</div>`;
+            });
+          }
+          
+          chatWindow.insertAdjacentHTML("beforeend", summaryHtml);
+        } else {
+          const errorData = await response.json();
+          chatWindow.insertAdjacentHTML(
+            "beforeend",
+            `<div class="message system error">❌ Error summarizing text: ${errorData.detail}</div>`
+          );
+        }
+      } else {
+        // Q&A mode - use RAG engine
+        if (!ragInitialized) {
+          chatWindow.insertAdjacentHTML(
+            "beforeend",
+            `<div class="message system error">❌ Please upload and process a document first to enable Q&A mode.</div>`
+          );
+        } else {
+          try {
+            // Ask question using RAG engine
+            const ragFormData = new FormData();
+            ragFormData.append('question', txt);
+            ragFormData.append('user_id', userData ? userData.user_id : 'anonymous');
+            
+            const ragResponse = await fetch('http://localhost:8000/rag/ask', {
+              method: 'POST',
+              body: ragFormData
+            });
+            
+            if (ragResponse.ok) {
+              const ragResult = await ragResponse.json();
+              
+              // Display answer
+              let answerHtml = `<div class="message system">🤖 <strong>Answer:</strong><br>${ragResult.answer}</div>`;
+              
+              // Display sources if available
+              if (ragResult.sources && ragResult.sources.length > 0) {
+                answerHtml += `<div class="message system"><strong>📚 Sources:</strong></div>`;
+                ragResult.sources.forEach(source => {
+                  answerHtml += `<div class="message system"><strong>📖 ${source.source}:</strong><br><em>${source.content}</em></div>`;
+                });
+              }
+              
+              chatWindow.insertAdjacentHTML("beforeend", answerHtml);
+            } else {
+              const errorData = await ragResponse.json();
+              chatWindow.insertAdjacentHTML(
+                "beforeend",
+                `<div class="message system error">❌ Error asking question: ${errorData.detail}</div>`
+              );
+            }
+          } catch (error) {
+            console.error('Error asking question:', error);
+            chatWindow.insertAdjacentHTML(
+              "beforeend",
+              `<div class="message system error">❌ Error asking question: ${error.message}</div>`
+            );
+          }
+        }
+      }
+      
+      // Save chat message to backend if user is logged in
+      if (userData) {
+        try {
+          const formData = new FormData();
+          formData.append('document_id', 'general');
+          formData.append('question', txt);
+          formData.append('answer', 'AI response generated');
+          formData.append('user_id', userData.user_id);
+          formData.append('mode', currentMode);
+          
+          await fetch('http://localhost:8000/chat/', {
+            method: 'POST',
+            body: formData
+          });
+        } catch (error) {
+          console.error('Error saving chat message:', error);
+        }
       }
     }
-  }
-  
-  queuedFiles.forEach((f) => {
+  } catch (error) {
+    console.error('Error processing request:', error);
     chatWindow.insertAdjacentHTML(
       "beforeend",
-      `<div class="message user">📎 ${f.name}</div>`
+      `<div class="message system error">❌ Error: ${error.message}</div>`
     );
-  });
-
-  chatInput.value = "";
-  queuedFiles = [];
-  renderPreview();
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+  } finally {
+    // Remove loading indicator
+    const loadingElement = document.getElementById(`loading-${loadingId}`);
+    if (loadingElement) {
+      loadingElement.remove();
+    }
+    
+    // Clear input and files
+    chatInput.value = "";
+    queuedFiles = [];
+    renderPreview();
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
 });
 
 /* ─── Persist current chat before leaving it ─────── */
@@ -266,6 +454,10 @@ newChatBtn.addEventListener("click", () => {
 
   chatNameEl.textContent = name;
   chatWindow.innerHTML = sessions.find((s) => s.id === currentId).html;
+  
+  // Reset RAG state for new chat
+  ragInitialized = false;
+  currentDocumentId = null;
 });
 
 /* ─── Switch chat from sidebar ───────────────────── */
@@ -284,6 +476,10 @@ chatList.addEventListener("click", (e) => {
   chatWindow.innerHTML = session.html;
   queuedFiles = [];
   renderPreview();
+  
+  // Reset RAG state when switching chats
+  ragInitialized = false;
+  currentDocumentId = null;
 });
 
 /* ─── Exit chat (NO history deletion) ─────────────── */

@@ -1,3 +1,9 @@
-.venv
+debug_numbered.py
+debug_step_by_step.py
+debug_test.py
+app.py
+test_connection.py
+test_database_flow.py
+test_sections.py
 venv
 .env

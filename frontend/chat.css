@@ -110,6 +110,8 @@ li:hover{background:rgba(255,255,255,.08)}
   box-shadow:var(--shadow-sm);
 }
 .message.user{align-self:flex-end;background:#dafae7}
+.message.system{align-self:flex-start;background:#f0f8ff;border-left:4px solid #10a37f;padding-left:12px}
+.message.system.error{align-self:flex-start;background:#ffe6e6;border-left:4px solid #d64545;padding-left:12px;color:#d64545}
 
 /* file preview bar */
 .file-preview{
