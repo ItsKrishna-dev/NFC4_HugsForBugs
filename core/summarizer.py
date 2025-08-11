@@ -15,7 +15,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 GEMINI_API_KEY = os.getenv(
     "GEMINI_API_KEY",
-    "AIzaSyCzSxqCA0eM7XnCtD5WXbgaUvtCE9njQdo"
+    "Your_API_KEY_HERE"
 )
 
 def _gemini_complete(prompt: str,
